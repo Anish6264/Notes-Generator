@@ -12,19 +12,29 @@ import {
   FaChartLine,
   FaFilePdf,
 } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice";
 
 
 function Auth() {
+const dispatch=useDispatch()
+
 
   const handleGoogleSignIn = async () => {
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response.user;
-      const name=user.displayName;
-      const email=user.email;
+const name = user.displayName;
+const email = user.email;
+const image = user.photoURL;
 
-      const result = await axios.post(`${serverUrl}/api/auth/google`, { name, email },{withCredentials:true});
+      const result = await axios.post(
+  `${serverUrl}/api/auth/google`,
+  { name, email, image },
+  { withCredentials: true }
+);
       console.log(result.data);
+        dispatch(setUserData(result.data.user));
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
       
@@ -93,35 +103,35 @@ function Auth() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <Feature
-            icon={<FaGift />}
-            title="50 Free AI Credits"
-            des="Start instantly with complimentary AI credits and generate professional academic content without any upfront cost."
-          />
+<Feature
+  icon={<FaGift className="text-pink-400" />}
+  title="50 Free AI Credits"
+  des="Start instantly with complimentary AI credits and generate professional academic content without any upfront cost."
+/>
 
-          <Feature
-            icon={<FaBookOpen />}
-            title="Exam-Focused Notes"
-            des="Generate concise, high-yield revision notes tailored for exams, quick learning, and faster preparation."
-          />
+<Feature
+  icon={<FaBookOpen className="text-blue-400" />}
+  title="Exam-Focused Notes"
+  des="Generate concise, high-yield revision notes tailored for exams, quick learning, and faster preparation."
+/>
 
-          <Feature
-            icon={<FaFolderOpen />}
-            title="Project Documentation"
-            des="Create well-structured project reports, assignment notes, and organized technical documentation effortlessly."
-          />
+<Feature
+  icon={<FaFolderOpen className="text-yellow-400" />}
+  title="Project Documentation"
+  des="Create well-structured project reports, assignment notes, and organized technical documentation effortlessly."
+/>
 
-          <Feature
-            icon={<FaChartLine />}
-            title="Charts & Visual Diagrams"
-            des="Automatically generate graphs, charts, flow diagrams, and visual study materials for better understanding."
-          />
+<Feature
+  icon={<FaChartLine className="text-green-400" />}
+  title="Charts & Visual Diagrams"
+  des="Automatically generate graphs, charts, flow diagrams, and visual study materials for better understanding."
+/>
 
-          <Feature
-            icon={<FaFilePdf />}
-            title="Instant PDF Export"
-            des="Download clean, printable, and professionally formatted PDF notes instantly with a single click."
-          />
+<Feature
+  icon={<FaFilePdf className="text-red-400" />}
+  title="Instant PDF Export"
+  des="Download clean, printable, and professionally formatted PDF notes instantly with a single click."
+/>
         </div>
       </main>
     </div>
