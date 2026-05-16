@@ -24,7 +24,11 @@ function History() {
           withCredentials: true,
         });
         console.log(res.data);
-        setTopics(Array.isArray(res.data) ? res.data : []);
+       setTopics(
+    Array.isArray(res.data)
+        ? res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : []
+);
       } catch (error) {
         error;
       }

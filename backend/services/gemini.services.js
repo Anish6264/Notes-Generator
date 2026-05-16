@@ -16,7 +16,7 @@ export const generateGeminiResponse =
               "application/json",
 
             "HTTP-Referer":
-              "http://localhost:5173",
+              process.env.CLIENT_URL,
 
             "X-Title":
               "Exam Notes AI",
@@ -41,23 +41,9 @@ export const generateGeminiResponse =
 
       const data = await response.json();
 
-      // SHOW COMPLETE RESPONSE IN TERMINAL
-      console.log(
-        "OpenRouter Response:"
-      );
-
-      console.log(
-        JSON.stringify(data, null, 2)
-      );
-
       const text =
         data?.choices?.[0]?.message
           ?.content;
-
-      // SHOW AI TEXT ONLY
-      console.log("AI TEXT:");
-
-      console.log(text);
 
       if (!text) {
         throw new Error(
@@ -71,30 +57,9 @@ export const generateGeminiResponse =
         .replace(/```/g, "")
         .trim();
 
-      // SHOW CLEAN TEXT
-      console.log("CLEAN TEXT:");
-
-      console.log(cleanText);
-
       try {
-        const parsedData =
-          JSON.parse(cleanText);
-
-        // SHOW PARSED JSON
-        console.log(
-          "PARSED JSON:"
-        );
-
-        console.log(parsedData);
-
-        return parsedData;
-      } catch (parseError) {
-        console.log(
-          "JSON PARSE FAILED"
-        );
-
-        console.log(parseError);
-
+        return JSON.parse(cleanText);
+      } catch {
         return {
           subTopics: {
             "⭐": [],
@@ -124,10 +89,9 @@ export const generateGeminiResponse =
       }
     } catch (error) {
       console.error(
-        "OPENROUTER ERROR:"
+        "OpenRouter Error:",
+        error.message
       );
-
-      console.error(error);
 
       return {
         subTopics: {

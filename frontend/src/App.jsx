@@ -1,25 +1,20 @@
 import "./App.css";
 
-import {
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import History from "./pages/History";
 import Notes from "./pages/Notes";
 import Pricing from "./pages/Pricing";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
 
 import { useEffect } from "react";
 
 import { getCurrrentUser } from "./services/api";
 
-import {
-  useDispatch,
-  useSelector,
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -30,9 +25,7 @@ function App() {
     getCurrrentUser(dispatch);
   }, [dispatch]);
 
-  const { userData, loading } = useSelector(
-    (state) => state.user
-  );
+  const { userData, loading } = useSelector((state) => state.user);
 
   console.log("Current User Data:", userData);
 
@@ -55,58 +48,31 @@ function App() {
     <Routes>
       <Route
         path="/"
-        element={
-          userData ? (
-            <Home />
-          ) : (
-            <Navigate to="/auth" replace />
-          )
-        }
+        element={userData ? <Home /> : <Navigate to="/auth" replace />}
       />
 
       <Route
         path="/auth"
-        element={
-          userData ? (
-            <Navigate to="/" replace />
-          ) : (
-            <Auth />
-          )
-        }
+        element={userData ? <Navigate to="/" replace /> : <Auth />}
       />
 
-            <Route
+      <Route
         path="/history"
-        element={
-          userData ? (
-            <History />
-          ) : (
-            <Navigate to="/auth" replace />
-          )
-        }
+        element={userData ? <History /> : <Navigate to="/auth" replace />}
       />
 
-            <Route
+      <Route
         path="/notes"
-        element={
-          userData ? (
-            <Notes />
-          ) : (
-            <Navigate to="/auth" replace />
-          )
-        }
+        element={userData ? <Notes /> : <Navigate to="/auth" replace />}
       />
 
-            <Route
+      <Route
         path="/pricing"
-        element={
-          userData ? (
-            <Pricing />
-          ) : (
-            <Navigate to="/auth" replace />
-          )
-        }
+        element={userData ? <Pricing /> : <Navigate to="/auth" replace />}
       />
+
+      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment-failed" element={<PaymentFailed />} />
     </Routes>
   );
 }
