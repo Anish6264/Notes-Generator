@@ -27,7 +27,6 @@ function App() {
 
   const { userData, loading } = useSelector((state) => state.user);
 
-  console.log("Current User Data:", userData);
 
   // LOADING SCREEN
   if (loading) {
