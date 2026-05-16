@@ -16,7 +16,7 @@ import { getCurrrentUser } from "./services/api";
 
 import { useDispatch, useSelector } from "react-redux";
 
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://notes-generatorbackend.onrender.com";
 
 function App() {
   const dispatch = useDispatch();
